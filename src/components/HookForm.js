@@ -1,11 +1,33 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import axios from "axios";
 
 let renderCount = 0;
 
 const HookForm = () => {
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      username: "",
+      email: "",
+      channel:"",
+      social: {
+        twitter: "",
+        facebook: ""
+      },
+      phoneNumbers: ["", ""],
+    }
+
+    // defaultValues: async () => {
+    //   const response = await axios.get("https://jsonplaceholder.typicode.com/users/1");
+    //   console.log(response.data,"adsfgfsd");
+    //   return {
+    //     username: "batman",
+    //     email: response.data.email,
+    //     channel: "sdsdf"
+    //   }
+    // }
+  });
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
 
@@ -28,7 +50,6 @@ const HookForm = () => {
           />
           <p className="error">{errors.username?.message}</p>
           <br />
-          <br />
         </div>
 
         <div className="form-control">
@@ -36,7 +57,6 @@ const HookForm = () => {
           <input
             type="email"
             id="email"
-            name="email"
             {...register("email", {
               pattern: {
                 value:
@@ -58,7 +78,6 @@ const HookForm = () => {
           />
           <p className="error">{errors.email?.message}</p>
           <br />
-          <br />
         </div>
 
         <div className="form-control">
@@ -66,10 +85,56 @@ const HookForm = () => {
           <input
             type="text"
             id="channel"
-            name="channel"
             {...register("channel", { required: "Channel field is required!" })}
           />
           <p className="error">{errors.channel?.message}</p>
+          <br />
+        </div>
+
+        <div className="form-control">
+          <label htmlFor="twitter">twitter:</label>
+          <input
+            type="text"
+            id="twitter"
+            {...register("social.twitter")}
+          />
+          <br />
+          <br />
+
+        </div>
+
+        <div className="form-control">
+          <label htmlFor="facebook">facebook:</label>
+          <input
+            type="text"
+            id="facebook"
+            {...register("social.facebook")}
+          />
+          <br />
+          <br />
+
+        </div>
+
+        <div className="form-control">
+          <label htmlFor="primary-phone">Primary Phone Number:</label>
+          <input
+            type="text"
+            id="primary-phone"
+            {...register("phoneNumbers[0]")}
+          />
+          <br />
+          <br />
+
+        </div>
+
+        
+        <div className="form-control">
+          <label htmlFor="secondary-phone">Secondary Phone Number:</label>
+          <input
+            type="text"
+            id="secondary-phone"
+            {...register("phoneNumbers[1]")}
+          />
           <br />
         </div>
 
